@@ -59,8 +59,8 @@
   margin-right: 16px;
 }
 .logo-img {
-  width: 260px;
-  height: 260px;
+  width: 220px;
+  height: 220px;
   object-fit: contain;
   display: block;
 }
@@ -107,24 +107,25 @@
   color: #000;
 }
 .college-trust {
-  font-size: 21px;
+  font-size: 24px;
   font-style: italic;
   font-weight: normal;
   line-height: 1.4;
   color: #000;
 }
 .college-accred {
-  font-size: 15px;
+  font-size: 16px;
   font-style: italic;
   line-height: 1.4;
   color: #000;
+  white-space: nowrap;
 }
 .college-accred strong {
   font-weight: bold;
   font-style: italic;
 }
 .college-affil {
-  font-size: 16px;
+  font-size: 18px;
   line-height: 1.4;
   color: #000;
 }
@@ -133,7 +134,7 @@
   font-style: italic;
 }
 .college-addr {
-  font-size: 22px;
+  font-size: 24px;
   line-height: 1.4;
   color: #000;
 }
@@ -153,7 +154,7 @@
   align-items: baseline;
   justify-content: center;
   margin: 6px 0 8px 0;
-  padding: 30px 0;
+  padding: 12px 0;
   position: relative;
   z-index: 1;
 }
@@ -162,15 +163,23 @@
   font-weight: bold;
   letter-spacing: 2px;
   color: #000;
+  border: 1.5px solid #aaa;
+  background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+  padding: 8px 36px;
+  display: inline-block;
 }
 
 /* ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚ÂÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚ÂÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ TC No / ID No row ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚ÂÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚ÂÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ */
 .tc-top-row {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  width: 100%;
   font-size: 26px;
   font-weight: bold;
-  margin-bottom: 6px;
+  margin-bottom: 32px;
+  padding-left: 28px;
+  padding-right: 32px;
   position: relative;
   z-index: 1;
 }
@@ -185,44 +194,46 @@
 /* Body rows */
 .tc-row {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   min-height: 68px;
   font-size: 26px;
-  line-height: 2.2;
-  padding: 3px 0;
+  line-height: 1.5;
+  padding: 8px 0 8px 28px;
+  margin-bottom: 10px;
 }
 .tc-row.tall { min-height: 120px; align-items: flex-start; padding-top: 0; }
 .tc-row.tall-3 { min-height: 0; align-items: flex-start; padding-top: 0; line-height: 1.8; }
 .tc-row.tall-2 { min-height: 0; align-items: flex-start; padding-top: 0; line-height: 1.8; }
 
 .tc-num-col {
-  width: 44px;
+  width: 54px;
   flex-shrink: 0;
   font-size: 26px;
-  line-height: 2.2;
-  align-self: center;
+  font-weight: bold;
+  line-height: 1.5;
+  text-align: left;
+  padding-right: 12px;
+  white-space: nowrap;
 }
 .tc-label-col {
   width: 460px;
   flex-shrink: 0;
   font-size: 26px;
-  line-height: 1.45;
-  align-self: center;
+  font-weight: bold;
+  line-height: 1.5;
 }
 .tc-colon-col {
   width: 28px;
   flex-shrink: 0;
   font-size: 26px;
-  line-height: 2.2;
+  line-height: 1.5;
   text-align: center;
-  align-self: center;
 }
 .tc-value-col {
   flex: 1;
   font-size: 26px;
-  line-height: 2.2;
+  line-height: 1.5;
   min-width: 0;
-  align-self: center;
 }
 
 /* sub-label inside label ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â removed */
@@ -233,12 +244,12 @@
   min-width: 80px;
   font-size: 26px;
   vertical-align: middle;
-  line-height: 2.2;
+  line-height: 1.5;
 }
 .dot-line.wide {
   width: 100%;
   display: block;
-  line-height: 2.2;
+  line-height: 1.5;
 }
 .dot-line.short  { min-width: 110px; }
 .dot-line.medium { min-width: 160px; }
@@ -305,6 +316,7 @@
   align-items: flex-end;
   margin-top: 60px;
   margin-bottom: 40px;
+  padding-left: 28px;
   position: relative;
   z-index: 1;
   font-size: 28px;

@@ -106,7 +106,7 @@ const TCCertificate = forwardRef<HTMLDivElement, TCCertificateProps>(({ data, co
       </div>
 
       {/* TC No / ID No */}
-      <div className="tc-top-row" style={{marginLeft: 34}}>
+      <div className="tc-top-row" style={{marginLeft: 34, paddingRight: 32, display:'flex', justifyContent:'space-between', width:'100%'}}>
         <div style={{display:'flex', alignItems:'center', gap: 4}}>
           <span>T.C.No.:</span>
           <span>{fullTCNum}</span>
@@ -143,17 +143,24 @@ const TCCertificate = forwardRef<HTMLDivElement, TCCertificateProps>(({ data, co
 
         {/* 7. Date of Birth */}
         <Row num="7" label="Date of Birth as entered in the admission Register (In figures and words)">
-          <span>{fmt(data.dob)} &amp; {data.dob_words}</span>
+          <div>
+            <div>{fmt(data.dob)}</div>
+            <div>{data.dob_words}</div>
+          </div>
         </Row>
 
         {/* 8. Date of Admission */}
-        <Row num="8" label="Date of Admission" value={fmt(data.admission_date)} />
+        <Row num="8" label="Date of Admission">
+          <strong>{fmt(data.admission_date)}</strong>
+        </Row>
 
         {/* 9. Period of Study */}
         <Row num="9" label="Period of Study" value={data.study_period} />
 
         {/* 10. Date of Completion */}
-        <Row num="10" label="Date of Completion" value={fmt(data.leaving_date)} />
+        <Row num="10" label="Date of Completion">
+          <strong>{fmt(data.leaving_date)}</strong>
+        </Row>
 
         {/* 11. Degree in which the student was studying at the time of completion */}
         <Row num="11" label="Degree in which the student was studying at the time of completion"
@@ -167,7 +174,9 @@ const TCCertificate = forwardRef<HTMLDivElement, TCCertificateProps>(({ data, co
           value="Refer Mark Sheet" />
 
         {/* 14. Date of application for T.C */}
-        <Row num="14" label="Date of application for T.C" value={fmt(data.application_date)} />
+        <Row num="14" label="Date of application for T.C">
+          <strong>{fmt(data.application_date)}</strong>
+        </Row>
 
         {/* 15. Reason for applying */}
         <Row num="15" label="Reason for applying for the T.C" value={data.reason} />
