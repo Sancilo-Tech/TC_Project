@@ -39,10 +39,12 @@ const TCPreview: React.FC = () => {
         width: el.offsetWidth, height: el.offsetHeight,
       });
       const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a3' });
-      pdf.addImage(
-        canvas.toDataURL('image/png'), 'PNG', 0, 0,
-        pdf.internal.pageSize.getWidth(), pdf.internal.pageSize.getHeight()
-      );
+      // Fit the capture inside the page without stretching it
+      const pageW = pdf.internal.pageSize.getWidth();
+      const pageH = pdf.internal.pageSize.getHeight();
+      const fit   = Math.min(pageW / canvas.width, pageH / canvas.height);
+      const imgW  = canvas.width * fit;
+      pdf.addImage(canvas.toDataURL('image/png'), 'PNG', (pageW - imgW) / 2, 0, imgW, canvas.height * fit);
       pdf.save(`TC_${data.tc_number.replace(/\//g, '_')}.pdf`);
       const newCount = (data.download_count ?? 0) + 1;
       await incrementDownloadCount(data.id, newCount);

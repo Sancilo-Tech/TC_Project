@@ -21,6 +21,7 @@ export interface TCFormData {
   reason: string;
   conduct: string;
   id_number: string;
+  umis_number: string;
   college_id: number;
 }
 

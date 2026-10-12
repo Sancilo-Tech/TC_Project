@@ -14,7 +14,7 @@ const initialState: TCFormData = {
   dob: '', dob_words: '', admission_date: '', study_period: '',
   leaving_date: '', class_at_leaving: '', medium: '',
   promotion_status: 'Refer Mark Sheet', application_date: '', reason: '',
-  conduct: '', id_number: '', college_id: 0,
+  conduct: '', id_number: '', umis_number: '', college_id: 0,
 };
 
 type FormErrors = Partial<Record<keyof TCFormData | 'college', string>>;
@@ -42,6 +42,7 @@ const academicFields: FieldConfig[] = [
   { name: 'leaving_date',     label: 'Date of Completion',                         type: 'date' },
   { name: 'class_at_leaving', label: 'Degree at Time of Completion',               full: true },
   { name: 'medium',           label: 'Medium of Instruction' },
+  { name: 'umis_number',      label: 'UMIS Number' },
   { name: 'promotion_status', label: 'Qualified for Promotion to Higher Education', disabled: true },
   { name: 'application_date', label: 'Date of Application for T.C.',               type: 'date' },
   { name: 'reason',           label: 'Reason for Applying T.C.',                   full: true, textarea: true },

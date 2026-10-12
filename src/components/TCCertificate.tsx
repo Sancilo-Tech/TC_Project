@@ -4,24 +4,18 @@ import { TCRecord, CollegeData } from '../types/tc';
 
 const fmt = (d: string): string => (d ? new Date(d).toLocaleDateString('en-IN') : '');
 
-interface DotLineProps { value?: string; wide?: boolean; }
-const DotLine: React.FC<DotLineProps> = ({ value, wide }) => (
-  <span className={`dot-line${wide ? ' wide' : ''}`}>{value ?? ''}</span>
-);
-
 interface RowProps {
   num: string;
   label: ReactNode;
   children?: ReactNode;
   value?: string;
-  tall?: boolean;
 }
-const Row: React.FC<RowProps> = ({ num, label, children, value, tall }) => (
-  <div className={`tc-row${tall ? ' tall' : ''}`}>
+const Row: React.FC<RowProps> = ({ num, label, children, value }) => (
+  <div className="tc-row">
     <div className="tc-num-col">{num}.</div>
     <div className="tc-label-col">{label}</div>
     <div className="tc-colon-col">:</div>
-    <div className="tc-value-col">{children ?? <DotLine value={value} wide />}</div>
+    <div className="tc-value-col">{children ?? value}</div>
   </div>
 );
 
@@ -106,19 +100,19 @@ const TCCertificate = forwardRef<HTMLDivElement, TCCertificateProps>(({ data, co
       </div>
 
       {/* TC No / ID No */}
-      <div className="tc-top-row" style={{marginLeft: 34, paddingRight: 32, display:'flex', justifyContent:'space-between', width:'100%'}}>
-        <div style={{display:'flex', alignItems:'center', gap: 4}}>
+      <div className="tc-top-row">
+        <div className="tc-top-item">
           <span>T.C.No.:</span>
           <span>{fullTCNum}</span>
         </div>
-        <div style={{display:'flex', alignItems:'center', gap: 4}}>
+        <div className="tc-top-item">
           <span>ID No:</span>
           <span>{data.id_number ?? ''}</span>
         </div>
       </div>
 
       {/* Body */}
-      <div className="tc-body"style={{marginLeft: 34}} >
+      <div className="tc-body">
 
         {/* 1. Name of the student */}
         <Row num="1" label="Name of the Student (In block letters)">
@@ -169,28 +163,31 @@ const TCCertificate = forwardRef<HTMLDivElement, TCCertificateProps>(({ data, co
         {/* 12. Medium of Instruction */}
         <Row num="12" label="Medium of Instruction" value={data.medium} />
 
-        {/* 13. Whether qualified for promotion */}
-        <Row num="13" label="Whether qualified for promotion to higher education"
+        {/* 13. UMIS Number */}
+        <Row num="13" label="UMIS Number" value={data.umis_number} />
+
+        {/* 14. Whether qualified for promotion */}
+        <Row num="14" label="Whether qualified for promotion to higher education"
           value="Refer Mark Sheet" />
 
-        {/* 14. Date of application for T.C */}
-        <Row num="14" label="Date of application for T.C">
+        {/* 15. Date of application for T.C */}
+        <Row num="15" label="Date of application for T.C">
           <strong>{fmt(data.application_date)}</strong>
         </Row>
 
-        {/* 15. Reason for applying */}
-        <Row num="15" label="Reason for applying for the T.C" value={data.reason} />
+        {/* 16. Reason for applying */}
+        <Row num="16" label="Reason for applying for the T.C" value={data.reason} />
 
-        {/* 16. Conduct and Character */}
-        <Row num="16" label="Conduct and Character" value="" />
+        {/* 17. Conduct and Character */}
+        <Row num="17" label="Conduct and Character" value="" />
 
       </div>
 
       {/* Footer */}
-      <div className="tc-footer" style={{marginLeft: 34}} >
+      <div className="tc-footer">
         <div className="footer-left">
-          <div>Place: <span className="dot-line medium" /></div>
-          <div>Date: <span className="dot-line medium" /></div>
+          <div>Place:</div>
+          <div>Date:</div>
         </div>
         <div className="footer-right">
           <div className="principal-label">Principal</div>

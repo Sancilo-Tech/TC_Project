@@ -31,6 +31,7 @@ CREATE TABLE IF NOT EXISTS tc_records (
   leaving_date     DATE,
   class_at_leaving VARCHAR(100),
   medium           VARCHAR(100),
+  umis_number      VARCHAR(50),
   promotion_status VARCHAR(100),
   application_date DATE,
   reason           TEXT,
@@ -58,6 +59,7 @@ CREATE TABLE IF NOT EXISTS user_profiles (
 -- ALTER TABLE tc_records ADD COLUMN IF NOT EXISTS guardian_name VARCHAR(200);
 -- ALTER TABLE tc_records ALTER COLUMN gender TYPE VARCHAR(20);
 -- ALTER TABLE tc_records ADD COLUMN IF NOT EXISTS download_count INTEGER NOT NULL DEFAULT 0;
+-- ALTER TABLE tc_records ADD COLUMN IF NOT EXISTS umis_number VARCHAR(50);
 
 -- New table for re-download logs:
 -- CREATE TABLE IF NOT EXISTS tc_download_logs (

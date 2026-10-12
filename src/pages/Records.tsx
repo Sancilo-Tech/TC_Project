@@ -65,8 +65,12 @@ const Records: React.FC = () => {
     await waitForImages(el);
     const canvas = await html2canvas(el, { scale: 2, backgroundColor: '#ffffff', useCORS: true });
     const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a3' });
-    pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0,
-      pdf.internal.pageSize.getWidth(), pdf.internal.pageSize.getHeight());
+    // Fit the capture inside the page without stretching it
+    const pageW = pdf.internal.pageSize.getWidth();
+    const pageH = pdf.internal.pageSize.getHeight();
+    const fit   = Math.min(pageW / canvas.width, pageH / canvas.height);
+    const imgW  = canvas.width * fit;
+    pdf.addImage(canvas.toDataURL('image/png'), 'PNG', (pageW - imgW) / 2, 0, imgW, canvas.height * fit);
     pdf.save(`TC_${rec.tc_number.replace(/\//g, '_')}.pdf`);
     root.unmount();
     document.body.removeChild(container);
@@ -338,6 +342,7 @@ const Records: React.FC = () => {
                   ['leaving_date', 'Leaving Date', 'date'],
                   ['class_at_leaving','Class at Leaving','text'],
                   ['medium',       'Medium',       'text'],
+                  ['umis_number',  'UMIS Number',  'text'],
                   ['promotion_status','Promotion Status','text'],
                   ['application_date','Application Date','date'],
                   ['conduct',      'Conduct',      'text'],
