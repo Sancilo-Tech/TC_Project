@@ -67,7 +67,7 @@
   z-index: 1;
 }
 .header-logo {
-  flex: 0 0 44mm;
+  flex: 0 0 50mm;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -138,7 +138,7 @@
   font-style: italic;
 }
 .college-addr {
-  font-size: 24px;
+  font-size: 28px;
   line-height: 1.4;
 }
 
