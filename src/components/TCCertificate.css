@@ -223,13 +223,16 @@
   overflow-wrap: break-word;
 }
 
-/* ── Footer: Place / Date left, Principal right ── */
+/* ── Footer: Place / Date left, Principal right on the "Place:" line ──
+   The round college seal is stamped beside Place / Date and is about 77mm
+   across at this scale, so the space above and below keeps it on the page
+   and clear of row 17. */
 .tc-footer {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
-  margin-top: 22mm;
-  padding: 0 var(--tc-inset);
+  align-items: flex-start;
+  margin-top: 30mm;
+  padding: 0 var(--tc-inset) 16mm;
   position: relative;
   z-index: 1;
   font-size: 24px;
