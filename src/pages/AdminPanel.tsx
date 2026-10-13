@@ -30,7 +30,7 @@ const AdminPanel: React.FC = () => {
     e.preventDefault();
     setError(''); setInfo(''); setCreating(true);
     try {
-      await createUser(newUsername.trim(), newPassword, newRole, profile!.id);
+      await createUser(newUsername.trim(), newPassword, newRole);
       setInfo(`User "${newUsername.trim()}" created successfully.`);
       setNewUsername(''); setNewPassword(''); setNewRole('user');
       load();
@@ -43,7 +43,7 @@ const AdminPanel: React.FC = () => {
 
   const openEdit = (u: UserProfile) => {
     setEditing(u);
-    setEditUsername(u.username || u.email.replace('@tc.local', ''));
+    setEditUsername(u.username);
     setEditPassword('');
     setEditRole(u.role);
     setError(''); setInfo('');
@@ -65,7 +65,7 @@ const AdminPanel: React.FC = () => {
   };
 
   const handleDelete = async (u: UserProfile) => {
-    if (!window.confirm(`Delete user "${u.username || u.email.replace('@tc.local', '')}"? This cannot be undone.`)) return;
+    if (!window.confirm(`Delete user "${u.username}"? This cannot be undone.`)) return;
     setError('');
     try {
       await deleteUser(u.id);
@@ -119,7 +119,7 @@ const AdminPanel: React.FC = () => {
           <tbody>
             {users.map(u => (
               <tr key={u.id}>
-                <td><strong>{u.username || u.email.replace('@tc.local', '')}</strong></td>
+                <td><strong>{u.username}</strong></td>
                 <td><span className={`role-badge ${u.role}`}>{u.role}</span></td>
                 <td>{u.created_at ? new Date(u.created_at).toLocaleDateString() : '—'}</td>
                 <td className="adm-actions">

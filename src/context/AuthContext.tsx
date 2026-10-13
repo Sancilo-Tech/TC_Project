@@ -1,8 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import supabase from '../api/supabase';
+import { getToken, onTokenChange } from '../api/client';
 import { getMyProfile } from '../lib/auth';
-import { UserProfile } from '../types/auth';
-import type { Session } from '@supabase/supabase-js';
+import { UserProfile, Session } from '../types/auth';
 
 interface AuthCtx {
   session: Session | null;
@@ -18,19 +17,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
-      setSession(data.session);
-      if (data.session) getMyProfile().then(setProfile);
-      setLoading(false);
-    });
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, s) => {
-      setSession(s);
-      if (s) getMyProfile().then(setProfile);
+    const apply = (token: string | null) => {
+      setSession(token ? { token } : null);
+      if (token) getMyProfile().then(setProfile);
       else setProfile(null);
-    });
+    };
 
-    return () => subscription.unsubscribe();
+    apply(getToken());
+    setLoading(false);
+
+    return onTokenChange(apply);
   }, []);
 
   return (

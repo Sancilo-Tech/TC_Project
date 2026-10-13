@@ -54,9 +54,9 @@ const Sidebar: React.FC<{ onClose?: () => void }> = ({ onClose }) => {
 
       <div className="sidebar-footer">
         <div className="sidebar-user">
-          <div className="sidebar-avatar">{(profile?.username || profile?.email)?.[0]?.toUpperCase() ?? 'U'}</div>
+          <div className="sidebar-avatar">{profile?.username?.[0]?.toUpperCase() ?? 'U'}</div>
           <div className="sidebar-user-info">
-            <div className="sidebar-user-email">{profile?.username || profile?.email || '—'}</div>
+            <div className="sidebar-user-email">{profile?.username || '—'}</div>
             <div className="sidebar-user-role">{profile?.role ?? 'user'}</div>
           </div>
         </div>

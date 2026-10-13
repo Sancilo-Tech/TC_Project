@@ -33,7 +33,7 @@ const Dashboard: React.FC = () => {
     <div className="dash-wrap">
       <div className="dash-header">
         <div>
-          <h1 className="dash-title">Welcome back{profile?.email ? `, ${profile.email.split('@')[0]}` : ''}! 👋</h1>
+          <h1 className="dash-title">Welcome back{profile?.username ? `, ${profile.username}` : ''}! 👋</h1>
           <p className="dash-sub">Here's what's happening with your Transfer Certificate system</p>
         </div>
         <button className="dash-new-btn" onClick={() => navigate('/new-tc')}>

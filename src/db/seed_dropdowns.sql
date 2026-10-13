@@ -1,6 +1,6 @@
 -- ============================================================
 -- DROPDOWN MASTER SEED DATA
--- Run in Supabase SQL Editor
+-- Loaded by `npm run db:init` when dropdown_options is empty
 -- ============================================================
 
 -- Clear existing data (optional — comment out if you want to keep existing)

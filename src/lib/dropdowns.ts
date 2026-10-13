@@ -1,4 +1,4 @@
-import supabase from '../api/supabase';
+import api from '../api/client';
 
 export type DropdownCategory =
   | 'nationality'
@@ -21,27 +21,13 @@ export interface DropdownOption {
 }
 
 export async function getDropdowns(category: DropdownCategory, parent?: string): Promise<DropdownOption[]> {
-  let q = supabase
-    .from('dropdown_options')
-    .select('*')
-    .eq('category', category)
-    .order('sort_order', { ascending: true })
-    .order('value', { ascending: true });
-  if (parent !== undefined) q = q.eq('parent', parent);
-  const { data, error } = await q;
-  if (error) throw error;
-  return data as DropdownOption[];
+  const params = new URLSearchParams({ category });
+  if (parent !== undefined) params.set('parent', parent);
+  return api.get<DropdownOption[]>(`/dropdowns?${params.toString()}`);
 }
 
 export async function getAllDropdowns(): Promise<DropdownOption[]> {
-  const { data, error } = await supabase
-    .from('dropdown_options')
-    .select('*')
-    .order('category')
-    .order('sort_order', { ascending: true })
-    .order('value', { ascending: true });
-  if (error) throw error;
-  return data as DropdownOption[];
+  return api.get<DropdownOption[]>('/dropdowns');
 }
 
 export async function addDropdown(
@@ -49,16 +35,9 @@ export async function addDropdown(
   value: string,
   parent?: string
 ): Promise<DropdownOption> {
-  const { data, error } = await supabase
-    .from('dropdown_options')
-    .insert({ category, value: value.trim(), parent: parent || null, sort_order: 999 })
-    .select()
-    .single();
-  if (error) throw error;
-  return data as DropdownOption;
+  return api.post<DropdownOption>('/dropdowns', { category, value, parent });
 }
 
 export async function deleteDropdown(id: number): Promise<void> {
-  const { error } = await supabase.from('dropdown_options').delete().eq('id', id);
-  if (error) throw error;
+  await api.delete(`/dropdowns/${id}`);
 }

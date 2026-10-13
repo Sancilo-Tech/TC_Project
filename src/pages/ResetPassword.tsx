@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import supabase from '../api/supabase';
+import { changeMyPassword } from '../lib/auth';
 import './Login.css';
 
 const ResetPassword: React.FC = () => {
@@ -14,9 +14,12 @@ const ResetPassword: React.FC = () => {
     e.preventDefault();
     if (password !== confirm) { setError('Passwords do not match'); return; }
     setLoading(true); setError('');
-    const { error } = await supabase.auth.updateUser({ password });
-    if (error) { setError(error.message); setLoading(false); return; }
-    navigate('/');
+    try {
+      await changeMyPassword(password);
+      navigate('/');
+    } catch (err: any) {
+      setError(err.message); setLoading(false);
+    }
   };
 
   return (
