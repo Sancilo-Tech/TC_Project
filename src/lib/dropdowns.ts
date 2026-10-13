@@ -8,7 +8,8 @@ export type DropdownCategory =
   | 'medium'
   | 'promotion_status'
   | 'conduct'
-  | 'reason';
+  | 'reason'
+  | 'tc_prefix';
 
 export interface DropdownOption {
   id: number;

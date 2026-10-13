@@ -1,6 +1,6 @@
 import React, { useState, useEffect, ChangeEvent, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { createTC } from '../lib/tc';
+import { createTC, printedTCNumber } from '../lib/tc';
 import { TCFormData, FieldConfig } from '../types/tc';
 import { useCollege } from '../context/CollegeContext';
 import CollegeSelector from '../components/CollegeSelector';
@@ -17,7 +17,7 @@ const initialState: TCFormData = {
   conduct: '', id_number: '', umis_number: '', college_id: 0,
 };
 
-type FormErrors = Partial<Record<keyof TCFormData | 'college', string>>;
+type FormErrors = Partial<Record<keyof TCFormData | 'college' | 'tc_prefix' | 'tc_serial', string>>;
 
 const required = new Set<keyof TCFormData>([
   'student_name', 'father_name', 'mother_name', 'gender',
@@ -50,11 +50,14 @@ const academicFields: FieldConfig[] = [
 ];
 
 const errStyle: React.CSSProperties = { color: '#dc2626', fontSize: 11, marginTop: 2, display: 'block' };
+const hintStyle: React.CSSProperties = { color: '#6b7a90', fontSize: 11, marginTop: 2, display: 'block' };
 const redBorder: React.CSSProperties = { borderColor: '#dc2626' };
 const star = <span style={{ color: '#dc2626' }}> *</span>;
 
 const TCForm: React.FC = () => {
   const [form, setForm]           = useState<TCFormData>(initialState);
+  const [tcPrefix, setTcPrefix]   = useState('');
+  const [tcSerial, setTcSerial]   = useState('');
   const [errors, setErrors]       = useState<FormErrors>({});
   const [submitError, setSubmitError] = useState('');
   const [loading, setLoading]     = useState(false);
@@ -70,6 +73,9 @@ const TCForm: React.FC = () => {
 
   const clearErr = (name: string) =>
     setErrors(p => { const n = { ...p }; delete (n as any)[name]; return n; });
+
+  const tcPrefixes = vals('tc_prefix');
+  const tcNumber   = printedTCNumber(tcPrefix + tcSerial.trim(), selected?.name);
 
   const handle = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -95,6 +101,10 @@ const TCForm: React.FC = () => {
   const validate = (): boolean => {
     const e: FormErrors = {};
     if (!selected) e.college = 'Please select a college.';
+    if (!tcPrefix)                     e.tc_prefix        = tcPrefixes.length
+      ? 'Select a T.C. No. prefix.'
+      : 'No prefixes yet. Add one under Dropdown Master → TC No. Prefix.';
+    if (!tcSerial.trim())              e.tc_serial        = 'T.C. number is required.';
     if (!form.student_name.trim())     e.student_name     = 'Student name is required.';
     if (!form.father_name.trim())      e.father_name      = "Father's name is required.";
     if (!form.mother_name.trim())      e.mother_name      = "Mother's name is required.";
@@ -116,7 +126,7 @@ const TCForm: React.FC = () => {
     setLoading(true);
     setSubmitError('');
     try {
-      const rec = await createTC({ ...form, college_id: selected!.id });
+      const rec = await createTC({ ...form, college_id: selected!.id }, tcNumber);
       navigate(`/preview/${rec.id}`);
     } catch (err) {
       setSubmitError(err instanceof Error ? err.message : 'Server error. Please try again.');
@@ -125,7 +135,7 @@ const TCForm: React.FC = () => {
     }
   };
 
-  const fieldErr = (name: keyof TCFormData) =>
+  const fieldErr = (name: keyof FormErrors) =>
     errors[name] ? <span style={errStyle}>{errors[name]}</span> : null;
 
   const renderField = (f: FieldConfig) => {
@@ -175,6 +185,27 @@ const TCForm: React.FC = () => {
         <div className="card-body">
           <form onSubmit={submit}>
             <div className="form-grid">
+
+              <div className="form-section-title">T.C. Number</div>
+
+              <div className="form-group">
+                <label>T.C. No. Prefix {star}</label>
+                <SearchableSelect
+                  name="tc_prefix" value={tcPrefix}
+                  options={tcPrefixes}
+                  onChange={(name, value) => { clearErr(name); setTcPrefix(value); }}
+                />
+                {fieldErr('tc_prefix')}
+              </div>
+
+              <div className="form-group">
+                <label>T.C. Number {star}</label>
+                <input type="text" name="tc_serial" value={tcSerial} placeholder="001"
+                  onChange={e => { clearErr('tc_serial'); setTcSerial(e.target.value); }}
+                  style={errors.tc_serial ? redBorder : {}} />
+                {tcPrefix && tcSerial.trim() && <span style={hintStyle}>T.C. No. on certificate: {tcNumber}</span>}
+                {fieldErr('tc_serial')}
+              </div>
 
               <div className="form-section-title">Personal Details</div>
 

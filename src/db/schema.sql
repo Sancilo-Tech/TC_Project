@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS colleges (
 
 CREATE TABLE IF NOT EXISTS tc_records (
   id               SERIAL PRIMARY KEY,
-  tc_number        VARCHAR(20) UNIQUE NOT NULL,
+  tc_number        VARCHAR(50) UNIQUE NOT NULL,
   id_number        VARCHAR(50),
   student_name     VARCHAR(200) NOT NULL,
   father_name      VARCHAR(200),
@@ -60,6 +60,7 @@ CREATE TABLE IF NOT EXISTS user_profiles (
 -- ALTER TABLE tc_records ALTER COLUMN gender TYPE VARCHAR(20);
 -- ALTER TABLE tc_records ADD COLUMN IF NOT EXISTS download_count INTEGER NOT NULL DEFAULT 0;
 -- ALTER TABLE tc_records ADD COLUMN IF NOT EXISTS umis_number VARCHAR(50);
+-- ALTER TABLE tc_records ALTER COLUMN tc_number TYPE VARCHAR(50);
 
 -- New table for re-download logs:
 -- CREATE TABLE IF NOT EXISTS tc_download_logs (

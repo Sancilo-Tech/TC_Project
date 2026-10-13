@@ -5,7 +5,7 @@ import jsPDF from 'jspdf';
 import { createRoot } from 'react-dom/client';
 import TCCertificate from '../components/TCCertificate';
 import { TCRecord, CollegeData, TCFormData, TCDownloadLog } from '../types/tc';
-import { getAllTCs, deleteTC, updateTC, incrementDownloadCount, addDownloadLog, getDownloadLogs } from '../lib/tc';
+import { getAllTCs, deleteTC, updateTC, incrementDownloadCount, addDownloadLog, getDownloadLogs, printedTCNumber } from '../lib/tc';
 import { getAllColleges } from '../lib/college';
 
 const Records: React.FC = () => {
@@ -14,6 +14,8 @@ const Records: React.FC = () => {
   const [search,   setSearch]   = useState('');
   const [editing,  setEditing]  = useState<TCRecord | null>(null);
   const [editForm, setEditForm] = useState<Partial<TCFormData>>({});
+  const [editTCNo, setEditTCNo] = useState('');
+  const [editError, setEditError] = useState('');
   const [saving,   setSaving]   = useState(false);
   const [dupModal, setDupModal] = useState<TCRecord | null>(null);
   const [dupReason, setDupReason] = useState('');
@@ -123,6 +125,8 @@ const Records: React.FC = () => {
     setEditing(rec);
     const { id, tc_number, created_at, ...rest } = rec;
     setEditForm(rest);
+    setEditTCNo(printedTCNumber(tc_number, colleges[rec.college_id]?.name));
+    setEditError('');
   };
 
   const handleEditChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -131,11 +135,18 @@ const Records: React.FC = () => {
 
   const handleSave = async () => {
     if (!editing) return;
+    const collegeName = colleges[editing.college_id]?.name;
+    const tc_number   = printedTCNumber(editTCNo.trim(), collegeName);
+    if (!tc_number) { setEditError('T.C. No. is required.'); return; }
+    const tcNoChanged = tc_number !== printedTCNumber(editing.tc_number, collegeName);
     setSaving(true);
+    setEditError('');
     try {
-      const updated = await updateTC(editing.id, editForm);
+      const updated = await updateTC(editing.id, tcNoChanged ? { ...editForm, tc_number } : editForm);
       setRecords(prev => prev.map(r => r.id === updated.id ? updated : r));
       setEditing(null);
+    } catch (err) {
+      setEditError(err instanceof Error ? err.message : 'Could not save changes.');
     } finally {
       setSaving(false);
     }
@@ -329,6 +340,10 @@ const Records: React.FC = () => {
             </div>
             <div className="modal-body">
               <div className="edit-grid">
+                <div className="edit-field">
+                  <label>T.C. No.</label>
+                  <input type="text" value={editTCNo} onChange={e => setEditTCNo(e.target.value)} />
+                </div>
                 {([
                   ['student_name', 'Student Name', 'text'],
                   ['father_name',  "Father's Name", 'text'],
@@ -362,6 +377,7 @@ const Records: React.FC = () => {
                   <textarea name="reason" value={editForm.reason ?? ''} onChange={handleEditChange} rows={3} />
                 </div>
               </div>
+              {editError && <p className="error-msg">⚠ {editError}</p>}
             </div>
             <div className="modal-foot">
               <button className="action-btn view" onClick={() => setEditing(null)}>Cancel</button>

@@ -22,6 +22,7 @@ const TABS: TabConfig[] = [
   { key: 'promotion_status',  label: 'Promotion Status',  icon: '🎓' },
   { key: 'conduct',           label: 'Conduct',           icon: '⭐' },
   { key: 'reason',            label: 'Reason',            icon: '📝' },
+  { key: 'tc_prefix',         label: 'TC No. Prefix',     icon: '🔢', hint: 'e.g. PAC/TC/2026/ — the number entered in New TC is added after it' },
 ];
 
 const DropdownMaster: React.FC = () => {

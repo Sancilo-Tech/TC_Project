@@ -1,19 +1,36 @@
 import supabase from '../api/supabase';
 import { TCFormData, TCRecord, TCDownloadLog } from '../types/tc';
+import { getCollegeById } from './college';
 
-async function generateTCNumber(): Promise<string> {
-  const year = new Date().getFullYear();
-  const { count } = await supabase
-    .from('tc_records')
-    .select('*', { count: 'exact', head: true })
-    .like('tc_number', `TC/${year}/%`)
-    .throwOnError();
-  const next = (count ?? 0) + 1;
-  return `TC/${year}/${String(next).padStart(3, '0')}`;
+// TCs issued before the prefix became configurable are stored as "TC/2026/003"
+// and print with the college abbreviation in front ("PAC/TC/2026/003").
+const LEGACY_TC_NUMBER = /^TC\/\d{4}\/\d+$/;
+
+export function printedTCNumber(tc_number: string, collegeName?: string): string {
+  if (!collegeName || !LEGACY_TC_NUMBER.test(tc_number)) return tc_number;
+  const abbr = collegeName.split(' ').map(w => w[0]).join('').toUpperCase();
+  return `${abbr}/${tc_number}`;
 }
 
-export async function createTC(data: TCFormData): Promise<TCRecord> {
-  const tc_number = await generateTCNumber();
+async function assertTCNumberFree(tc_number: string, excludeId?: number): Promise<void> {
+  const legacy = tc_number.slice(tc_number.indexOf('/') + 1);
+  const { data, error } = await supabase
+    .from('tc_records')
+    .select('id, tc_number, college_id')
+    .in('tc_number', [tc_number, legacy]);
+  if (error) throw new Error(error.message);
+  for (const row of data ?? []) {
+    if (row.id === excludeId) continue;
+    let printed: string = row.tc_number;
+    if (printed !== tc_number && row.college_id) {
+      printed = printedTCNumber(printed, (await getCollegeById(row.college_id)).name);
+    }
+    if (printed === tc_number) throw new Error(`T.C. No. ${tc_number} is already issued.`);
+  }
+}
+
+export async function createTC(data: TCFormData, tc_number: string): Promise<TCRecord> {
+  await assertTCNumberFree(tc_number);
   const { data: row, error } = await supabase
     .from('tc_records')
     .insert({ ...data, tc_number })
@@ -42,7 +59,11 @@ export async function getTCById(id: number): Promise<TCRecord> {
   return data as TCRecord;
 }
 
-export async function updateTC(id: number, data: Partial<TCFormData>): Promise<TCRecord> {
+export async function updateTC(
+  id: number,
+  data: Partial<TCFormData & Pick<TCRecord, 'tc_number'>>
+): Promise<TCRecord> {
+  if (data.tc_number) await assertTCNumberFree(data.tc_number, id);
   const { data: row, error } = await supabase
     .from('tc_records')
     .update(data)

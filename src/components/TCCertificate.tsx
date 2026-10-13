@@ -1,6 +1,7 @@
 import React, { forwardRef, ReactNode } from 'react';
 import './TCCertificate.css';
 import { TCRecord, CollegeData } from '../types/tc';
+import { printedTCNumber } from '../lib/tc';
 
 const fmt = (d: string): string => (d ? new Date(d).toLocaleDateString('en-IN') : '');
 
@@ -36,8 +37,7 @@ const TCCertificate = forwardRef<HTMLDivElement, TCCertificateProps>(({ data, co
   const trustName   = college?.trust_name  ?? 'A Unit of R.S Educational and Charitable Trust';
   const address     = college?.address     ?? 'Melpatti-635 805, Vellore (Dt), Tamil Nadu.';
   const logoUrl     = college?.logo_url    ?? '';
-  const abbr        = collegeName.split(' ').map((w: string) => w[0]).join('').toUpperCase();
-  const fullTCNum   = data.tc_number ? `${abbr}/${data.tc_number}` : '';
+  const fullTCNum   = data.tc_number ? printedTCNumber(data.tc_number, collegeName) : '';
 
   return (
     <div className="tc-cert" ref={ref}>
