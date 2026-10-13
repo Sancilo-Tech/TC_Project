@@ -29,6 +29,11 @@ if (fs.existsSync(buildDir)) {
 
 app.use(errorHandler);
 
-app.listen(config.port, () => {
+app.listen(config.port, err => {
+  // Express passes start-up failures (e.g. the port is already taken) here
+  if (err) {
+    console.error(`Could not start on port ${config.port}: ${err.message}`);
+    process.exit(1);
+  }
   console.log(`TC server running at http://localhost:${config.port}`);
 });

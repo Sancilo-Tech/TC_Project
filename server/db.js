@@ -7,6 +7,11 @@ types.setTypeParser(types.builtins.DATE, v => v);
 
 const pool = new Pool(config.db);
 
+// Idle connections are dropped when PostgreSQL restarts (e.g. during a Windows
+// update). Without a listener that error would crash the server; with one the
+// pool simply opens fresh connections on the next request.
+pool.on('error', err => console.error(`Database connection lost: ${err.message}`));
+
 // `table` and the keys of `values` are put into the SQL as-is, so they must
 // come from a fixed column list in the route, never straight from a request.
 async function insertRow(table, values) {

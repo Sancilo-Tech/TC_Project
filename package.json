@@ -26,6 +26,9 @@
     "build": "react-scripts build",
     "server": "node server/index.js",
     "db:init": "node server/scripts/init-db.js",
+    "autostart:install": "powershell -NoProfile -ExecutionPolicy Bypass -File server/scripts/autostart.ps1 install",
+    "autostart:status": "powershell -NoProfile -ExecutionPolicy Bypass -File server/scripts/autostart.ps1 status",
+    "autostart:remove": "powershell -NoProfile -ExecutionPolicy Bypass -File server/scripts/autostart.ps1 remove",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
